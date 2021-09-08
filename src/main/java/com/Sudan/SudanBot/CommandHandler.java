@@ -1,5 +1,6 @@
 package com.Sudan.SudanBot;
 
+import com.Sudan.SudanBot.commands.*;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.Nullable;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 public class CommandHandler extends ListenerAdapter {
     public final ArrayList<ICommand> commands = new ArrayList<>();
     CommandHandler() {
+        addCommand(new Ping());
     }
     private void addCommand(ICommand cmd) {
         boolean nameFound = this.commands.stream().anyMatch((it) -> it.command().getName().equalsIgnoreCase(cmd.command().getName()));
