@@ -11,6 +11,7 @@ public class CommandHandler extends ListenerAdapter {
     public final ArrayList<ICommand> commands = new ArrayList<>();
     CommandHandler() {
         addCommand(new Ping());
+        addCommand(new Invite());
     }
     private void addCommand(ICommand cmd) {
         boolean nameFound = this.commands.stream().anyMatch((it) -> it.command().getName().equalsIgnoreCase(cmd.command().getName()));
