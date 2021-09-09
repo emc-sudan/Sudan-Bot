@@ -30,6 +30,10 @@ public class Play implements ICommand {
                 return;
             }
         }
+        if (memberVoiceState.isDeafened()) {
+            ctx.getHook().sendMessage("Do you really think i'm going to play music for someone who's not listening?").setEphemeral(true).queue();
+            return;
+        }
         Music.getInstance().queue(ctx, ctx.getOption("song").getAsString());
     }
 }
