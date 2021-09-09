@@ -3,16 +3,31 @@ package com.Sudan.SudanBot;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.GuildVoiceState;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Music {
-    public static AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
-    public static void join(Guild guild, VoiceChannel channel) {
+    private final AudioPlayerManager playerManager;
+    private static Music INSTANCE;
+    private final Map<Long, GuildMusicManager> musicManagers;
+    public Music() {
+        musicManagers = new HashMap<>();
+        playerManager = new DefaultAudioPlayerManager();
+        AudioSourceManagers.registerRemoteSources(playerManager);
+        AudioSourceManagers.registerLocalSource(playerManager);
+    }
+    public void join(Guild guild, VoiceChannel channel) {
         AudioManager manager = guild.getAudioManager();
         manager.setSendingHandler(new AudioPlayerSendHandler(playerManager.createPlayer()));
         manager.openAudioConnection(channel);
@@ -39,19 +54,16 @@ public class Music {
             ctx.getHook().sendMessage("I can't join your voice channel if you're not in a voice channel").setEphemeral(true).queue();
             throw new IllegalStateException("I can't join your voice channel if you're not in a voice channel");
         }
-        join(guild, voiceState.getChannel());
+        getInstance().join(guild, voiceState.getChannel());
         ctx.getHook().sendMessage("Joined your voice channel").setEphemeral(true).queue();
     }
-    public static void queue(SlashCommandEvent ctx, String url) {
+    public void queue(SlashCommandEvent ctx, String url) {
         Guild guild = ctx.getGuild();
         if (guild == null) {
             ctx.getHook().sendMessage("Could not retrieve guild").setEphemeral(true).queue();
             return;
         }
-        AudioPlayerSendHandler handler = (AudioPlayerSendHandler) ctx.getGuild().getAudioManager().getSendingHandler();
-        assert handler != null;
-        GuildMusicManager manager = handler.getManager();
-
+        final GuildMusicManager manager = getMusicManager(ctx.getGuild());
         playerManager.loadItemOrdered(manager, url, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
@@ -74,5 +86,18 @@ public class Music {
                 //
             }
         });
+    }
+    public GuildMusicManager getMusicManager(Guild guild) {
+        return this.musicManagers.computeIfAbsent(guild.getIdLong(), (guildId) -> {
+            final GuildMusicManager guildMusicManager = new GuildMusicManager(playerManager);
+            guild.getAudioManager().setSendingHandler(guildMusicManager.getSendHandler());
+            return guildMusicManager;
+        });
+    }
+    public static Music getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new Music();
+        }
+        return INSTANCE;
     }
 }

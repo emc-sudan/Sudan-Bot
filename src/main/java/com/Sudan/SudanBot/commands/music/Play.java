@@ -30,6 +30,6 @@ public class Play implements ICommand {
                 return;
             }
         }
-        Music.queue(ctx, ctx.getOption("song").getAsString());
+        Music.getInstance().queue(ctx, ctx.getOption("song").getAsString());
     }
 }
