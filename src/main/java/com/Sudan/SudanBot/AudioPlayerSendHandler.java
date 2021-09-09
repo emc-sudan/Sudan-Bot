@@ -13,7 +13,7 @@ public class AudioPlayerSendHandler implements AudioSendHandler {
 
     public AudioPlayerSendHandler(AudioPlayer audioPlayer) {
         this.audioPlayer = audioPlayer;
-        manager = new GuildMusicManager(Music.playerManager);
+        manager = new GuildMusicManager(Music.playerManager, this);
     }
 
     public GuildMusicManager getManager() {

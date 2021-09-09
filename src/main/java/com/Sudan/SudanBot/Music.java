@@ -42,7 +42,7 @@ public class Music {
         join(guild, voiceState.getChannel());
         ctx.getHook().sendMessage("Joined your voice channel").setEphemeral(true).queue();
     }
-    public void queue(SlashCommandEvent ctx, String url) {
+    public static void queue(SlashCommandEvent ctx, String url) {
         Guild guild = ctx.getGuild();
         if (guild == null) {
             ctx.getHook().sendMessage("Could not retrieve guild").setEphemeral(true).queue();

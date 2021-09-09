@@ -15,6 +15,7 @@ public class CommandHandler extends ListenerAdapter {
         addCommand(new Invite());
         // Music
         addCommand(new Join());
+        addCommand(new Play());
     }
     private void addCommand(ICommand cmd) {
         boolean nameFound = this.commands.stream().anyMatch((it) -> it.command().getName().equalsIgnoreCase(cmd.command().getName()));
