@@ -8,6 +8,8 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
+import java.util.Objects;
+
 public class Play implements ICommand {
     public CommandData command() {
         return new CommandData("play", "Adds a song to the queue")
@@ -23,7 +25,7 @@ public class Play implements ICommand {
         }
         GuildVoiceState selfVoiceState = guild.getMember(ctx.getJDA().getSelfUser()).getVoiceState();
         GuildVoiceState memberVoiceState = ctx.getMember().getVoiceState();
-        if (selfVoiceState.getChannel() != memberVoiceState.getChannel() || selfVoiceState == null) {
+        if (!Objects.equals(selfVoiceState.getChannel(), memberVoiceState.getChannel()) || !selfVoiceState.inVoiceChannel()) {
             try {
                 Music.join(ctx);
             } catch (IllegalStateException exception) {
