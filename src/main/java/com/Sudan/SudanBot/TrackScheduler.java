@@ -23,7 +23,7 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
     public void nextTrack() {
-        this.player.startTrack(queue.poll(), false);
+        player.startTrack(queue.poll(), false);
     }
 
     @Override

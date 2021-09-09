@@ -9,7 +9,6 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
@@ -32,24 +31,18 @@ public class Music {
         manager.setSendingHandler(new AudioPlayerSendHandler(playerManager.createPlayer()));
         manager.openAudioConnection(channel);
     }
+    @SuppressWarnings("ConstantConditions")
     public static void join(SlashCommandEvent ctx) throws IllegalStateException {
         Guild guild = ctx.getGuild();
         if (guild == null) {
             ctx.getHook().sendMessage("Could not retrieve server").setEphemeral(true).queue();
             throw new IllegalStateException("Could not retrieve server");
         }
-        Member self = guild.getMember(ctx.getJDA().getSelfUser());
-        assert self != null;
-        GuildVoiceState selfVoiceState = self.getVoiceState();
-        assert selfVoiceState != null;
-        if (selfVoiceState.inVoiceChannel()) {
+        if (guild.getMember(ctx.getJDA().getSelfUser()).getVoiceState().inVoiceChannel()) {
             ctx.getHook().sendMessage("Do you expect me to be in two places at once?").setEphemeral(true).queue();
             throw new IllegalStateException("Do you expect me to be in two places at once?");
         }
-        Member author = ctx.getMember();
-        assert author != null;
-        GuildVoiceState voiceState = author.getVoiceState();
-        assert voiceState != null;
+        GuildVoiceState voiceState = ctx.getMember().getVoiceState();
         if (!voiceState.inVoiceChannel()) {
             ctx.getHook().sendMessage("I can't join your voice channel if you're not in a voice channel").setEphemeral(true).queue();
             throw new IllegalStateException("I can't join your voice channel if you're not in a voice channel");
