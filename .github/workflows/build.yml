@@ -5,25 +5,30 @@ name: Build
 
 on:
   push:
+    paths:
+      - "**.java"
   pull_request:
+  workflow_dispatch:
 
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK
-      uses: actions/setup-java@v2
-      with:
-        java-version: '16'
-        distribution: 'adopt'
-        cache: maven
+      - uses: actions/checkout@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: "16"
+          distribution: "adopt"
+          cache: maven
     - name: Build
       run: |
-        mvn -B package --file pom.xml
+        branch=$(git rev-parse --abbrev-ref HEAD)
+        commit=$(git rev-parse --short HEAD)
+        mvn -B versions:set -DnewVersion=$branch-$commit package --file pom.xml
         mkdir staging && cp target/*.jar staging
     - uses: actions/upload-artifact@v2
       with:
-        name: Package
+        name: Sudan Bot
         path: staging
