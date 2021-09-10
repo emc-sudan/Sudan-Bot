@@ -36,6 +36,8 @@ public class Play implements ICommand {
             ctx.getHook().sendMessage("Do you really think i'm going to play music for someone who's not listening?").setEphemeral(true).queue();
             return;
         }
-        Music.getInstance().queue(ctx, ctx.getOption("song").getAsString());
+        String song = ctx.getOption("song").getAsString().strip();
+        if (!song.startsWith("https://") && !song.startsWith("http://")) song = "ytsearch:" + song;
+        Music.getInstance().queue(ctx, song);
     }
 }

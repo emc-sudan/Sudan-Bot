@@ -66,24 +66,26 @@ public class Music {
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
+                if (playlist.isSearchResult()) {
+                    AudioTrack track = playlist.getTracks().get(0);
+                    manager.scheduler.queue(track);
+                    ctx.getHook().sendMessage(String.format("Queued `%s`", track.getInfo().title)).setEphemeral(true).queue();
+                    return;
+                }
                 for (AudioTrack track : playlist.getTracks()) {
                     manager.scheduler.queue(track);
-                    if (playlist.isSearchResult()) {
-                        ctx.getHook().sendMessage(String.format("Queued `%s`", track.getInfo().title)).setEphemeral(true).queue();
-                        break;
-                    }
                 }
                 ctx.getHook().sendMessage(String.format("Queued `%d` tracks from `%s`", playlist.getTracks().size(), playlist.getName())).setEphemeral(true).queue();
             }
 
             @Override
             public void noMatches() {
-                //
+                ctx.getHook().sendMessage("Song not found").setEphemeral(true).queue();
             }
 
             @Override
             public void loadFailed(FriendlyException exception) {
-                //
+                ctx.getHook().sendMessage(exception.getMessage()).setEphemeral(true).queue();
             }
         });
     }
