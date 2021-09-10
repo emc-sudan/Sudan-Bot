@@ -9,16 +9,19 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
 public class Play extends MusicCommand {
+    @Override
     public CommandData command() {
         return new CommandData("play", "Adds a song to the queue")
                 .addOption(OptionType.STRING, "song", "The URL for the song to play", true);
     }
 
+    @Override
     protected boolean allowDeaf() {
         return false;
     }
 
     @SuppressWarnings("ConstantConditions")
+    @Override
     public void afterCheck(SlashCommandEvent ctx, Guild guild, GuildVoiceState memberVoiceState, GuildVoiceState selfVoiceState) {
         String song = ctx.getOption("song").getAsString().strip();
         if (!song.startsWith("https://") && !song.startsWith("http://")) song = "ytsearch:" + song;

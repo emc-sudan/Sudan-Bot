@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
 public class Stop extends MusicCommand {
+    @Override
     public CommandData command() {
         return new CommandData("stop", "Stops the currently playing song and clears the queue");
     }

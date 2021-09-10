@@ -7,10 +7,13 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
 public class Invite implements ICommand {
     private static final String INVITE = "https://discord.com/api/oauth2/authorize?client_id=%s&scope=bot%%20applications.commands";
+
+    @Override
     public CommandData command() {
         return new CommandData("invite", "Sends you a link to invite me to your own server");
     }
 
+    @Override
     public void handle(SlashCommandEvent ctx) {
         ctx.getHook().sendMessage(String.format(INVITE, Config.get("application id"))).setEphemeral(true).queue();
     }

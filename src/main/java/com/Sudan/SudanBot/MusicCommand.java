@@ -12,6 +12,7 @@ public abstract class MusicCommand implements ICommand {
     protected abstract void afterCheck(SlashCommandEvent ctx, Guild guild, GuildVoiceState memberVoiceState, GuildVoiceState selfVoiceState);
 
     @SuppressWarnings("ConstantConditions")
+    @Override
     public void handle(SlashCommandEvent ctx) {
         Guild guild = ctx.getGuild();
         if (guild == null) {
