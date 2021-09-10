@@ -66,7 +66,14 @@ public class Music {
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
-                //
+                for (AudioTrack track : playlist.getTracks()) {
+                    manager.scheduler.queue(track);
+                    if (playlist.isSearchResult()) {
+                        ctx.getHook().sendMessage(String.format("Queued `%s`", track.getInfo().title)).setEphemeral(true).queue();
+                        break;
+                    }
+                }
+                ctx.getHook().sendMessage(String.format("Queued `%d` tracks from `%s`", playlist.getTracks().size(), playlist.getName())).setEphemeral(true).queue();
             }
 
             @Override
