@@ -1,7 +1,11 @@
 package com.Sudan.SudanBot;
 
-import com.Sudan.SudanBot.commands.*;
-import com.Sudan.SudanBot.commands.music.*;
+import com.Sudan.SudanBot.commands.Invite;
+import com.Sudan.SudanBot.commands.Ping;
+import com.Sudan.SudanBot.commands.music.Join;
+import com.Sudan.SudanBot.commands.music.Play;
+import com.Sudan.SudanBot.commands.music.Skip;
+import com.Sudan.SudanBot.commands.music.Stop;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.Nullable;
@@ -16,6 +20,8 @@ public class CommandHandler extends ListenerAdapter {
         // Music
         addCommand(new Join());
         addCommand(new Play());
+        addCommand(new Stop());
+        addCommand(new Skip());
     }
     private void addCommand(ICommand cmd) {
         boolean nameFound = this.commands.stream().anyMatch((it) -> it.command().getName().equalsIgnoreCase(cmd.command().getName()));
