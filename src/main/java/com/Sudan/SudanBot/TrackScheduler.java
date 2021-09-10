@@ -11,6 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class TrackScheduler extends AudioEventAdapter {
     private final AudioPlayer player;
     private final BlockingQueue<AudioTrack> queue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<AudioTrack> lowQueue = new LinkedBlockingQueue<>();
 
     public TrackScheduler(AudioPlayer player) {
         this.player = player;
@@ -22,8 +23,15 @@ public class TrackScheduler extends AudioEventAdapter {
         }
     }
 
+    public void lowQueue(AudioTrack track) {
+        if (!player.startTrack(track, true)) {
+            lowQueue.offer(track);
+        }
+    }
+
     public void nextTrack() {
-        player.startTrack(queue.poll(), false);
+        AudioTrack track = queue.poll();
+        player.startTrack(track != null ? track : lowQueue.poll(), false);
     }
 
     @Override

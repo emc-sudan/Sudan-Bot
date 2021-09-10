@@ -73,7 +73,7 @@ public class Music {
                     return;
                 }
                 for (AudioTrack track : playlist.getTracks()) {
-                    manager.scheduler.queue(track);
+                    manager.scheduler.lowQueue(track);
                 }
                 ctx.getHook().sendMessage(String.format("Queued `%d` tracks from `%s`", playlist.getTracks().size(), playlist.getName())).setEphemeral(true).queue();
             }
