@@ -1,5 +1,6 @@
 package com.Sudan.SudanBot.commands.music;
 
+import com.Sudan.SudanBot.GuildMusicManager;
 import com.Sudan.SudanBot.Music;
 import com.Sudan.SudanBot.MusicCommand;
 import net.dv8tion.jda.api.entities.Guild;
@@ -22,7 +23,7 @@ public class Play extends MusicCommand {
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public void afterCheck(SlashCommandEvent ctx, Guild guild, GuildVoiceState memberVoiceState, GuildVoiceState selfVoiceState) {
+    public void afterCheck(SlashCommandEvent ctx, Guild guild, GuildVoiceState memberVoiceState, GuildVoiceState selfVoiceState, GuildMusicManager musicManager) {
         String song = ctx.getOption("song").getAsString().strip();
         if (!song.startsWith("https://") && !song.startsWith("http://")) song = "ytsearch:" + song;
         Music.getInstance().queue(ctx, song);

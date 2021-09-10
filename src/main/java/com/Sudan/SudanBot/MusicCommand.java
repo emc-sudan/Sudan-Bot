@@ -9,7 +9,7 @@ import java.util.Objects;
 public abstract class MusicCommand implements ICommand {
     protected abstract boolean allowDeaf();
 
-    protected abstract void afterCheck(SlashCommandEvent ctx, Guild guild, GuildVoiceState memberVoiceState, GuildVoiceState selfVoiceState);
+    protected abstract void afterCheck(SlashCommandEvent ctx, Guild guild, GuildVoiceState memberVoiceState, GuildVoiceState selfVoiceState, GuildMusicManager musicManager);
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -32,6 +32,6 @@ public abstract class MusicCommand implements ICommand {
             ctx.getHook().sendMessage("Do you really think i'm going to play music for someone who's not listening?").setEphemeral(true).queue();
             return;
         }
-        afterCheck(ctx, guild, memberVoiceState, selfVoiceState);
+        afterCheck(ctx, guild, memberVoiceState, selfVoiceState, Music.getInstance().getMusicManager(guild));
     }
 }
