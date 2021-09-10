@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,16 +19,16 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
-          java-version: '16'
-          distribution: 'adopt'
+          java-version: 16
+          distribution: adopt
           cache: maven
-    - name: Build
-      run: |
-        branch=$(git rev-parse --abbrev-ref HEAD)
-        commit=$(git rev-parse --short HEAD)
-        mvn -B versions:set -DnewVersion=$branch-$commit package --file pom.xml
-        mkdir staging && cp target/*.jar staging
-    - uses: actions/upload-artifact@v2
-      with:
-        name: Sudan Bot
-        path: staging
+      - name: Build
+        run: |
+          branch=$(git rev-parse --abbrev-ref HEAD)
+          commit=$(git rev-parse --short HEAD)
+          mvn -B versions:set -DnewVersion=$branch-$commit package --file pom.xml
+          mkdir staging && cp target/*.jar staging
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Sudan Bot
+          path: staging
