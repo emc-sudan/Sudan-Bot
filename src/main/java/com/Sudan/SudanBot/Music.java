@@ -7,8 +7,10 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
@@ -35,25 +37,45 @@ public class Music {
     public static void join(SlashCommandEvent ctx) throws IllegalStateException {
         Guild guild = ctx.getGuild();
         if (guild == null) {
-            ctx.getHook().sendMessage("Could not retrieve server").setEphemeral(true).queue();
+            MessageEmbed embed = new EmbedBuilder()
+                    .setColor(Colours.ERROR.colour)
+                    .setTitle("Could not retrieve server")
+                    .build();
+            ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
             throw new IllegalStateException("Could not retrieve server");
         }
         if (guild.getMember(ctx.getJDA().getSelfUser()).getVoiceState().inVoiceChannel()) {
-            ctx.getHook().sendMessage("Do you expect me to be in two places at once?").setEphemeral(true).queue();
+            MessageEmbed embed = new EmbedBuilder()
+                    .setColor(Colours.ERROR.colour)
+                    .setTitle("Do you expect me to be in two places at once?")
+                    .build();
+            ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
             throw new IllegalStateException("Do you expect me to be in two places at once?");
         }
         GuildVoiceState voiceState = ctx.getMember().getVoiceState();
         if (!voiceState.inVoiceChannel()) {
-            ctx.getHook().sendMessage("I can't join your voice channel if you're not in a voice channel").setEphemeral(true).queue();
+            MessageEmbed embed = new EmbedBuilder()
+                    .setColor(Colours.ERROR.colour)
+                    .setTitle("I can't join your voice channel if you're not in a voice channel")
+                    .build();
+            ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
             throw new IllegalStateException("I can't join your voice channel if you're not in a voice channel");
         }
         getInstance().join(guild, voiceState.getChannel());
-        ctx.getHook().sendMessage("Joined your voice channel").setEphemeral(true).queue();
+        MessageEmbed embed = new EmbedBuilder()
+                .setColor(Colours.SUCCESS.colour)
+                .setTitle(String.format("Joined %s", voiceState.getChannel().getName()))
+                .build();
+        ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
     }
     public void queue(SlashCommandEvent ctx, String url) {
         Guild guild = ctx.getGuild();
         if (guild == null) {
-            ctx.getHook().sendMessage("Could not retrieve guild").setEphemeral(true).queue();
+            MessageEmbed embed = new EmbedBuilder()
+                    .setColor(Colours.ERROR.colour)
+                    .setTitle("Could not retrieve server")
+                    .build();
+            ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
             return;
         }
         final GuildMusicManager manager = getMusicManager(ctx.getGuild());
@@ -61,7 +83,11 @@ public class Music {
             @Override
             public void trackLoaded(AudioTrack track) {
                 manager.scheduler.queue(track);
-                ctx.getHook().sendMessage(String.format("Queued `%s`", track.getInfo().title)).setEphemeral(true).queue();
+                MessageEmbed embed = new EmbedBuilder()
+                        .setColor(Colours.SUCCESS.colour)
+                        .setTitle(String.format("Queued `%s`", track.getInfo().title))
+                        .build();
+                ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
             }
 
             @Override
@@ -69,23 +95,40 @@ public class Music {
                 if (playlist.isSearchResult()) {
                     AudioTrack track = playlist.getTracks().get(0);
                     manager.scheduler.queue(track);
-                    ctx.getHook().sendMessage(String.format("Queued `%s`", track.getInfo().title)).setEphemeral(true).queue();
+                    MessageEmbed embed = new EmbedBuilder()
+                            .setColor(Colours.SUCCESS.colour)
+                            .setTitle(String.format("Queued `%s`", track.getInfo().title))
+                            .build();
+                    ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
                     return;
                 }
                 for (AudioTrack track : playlist.getTracks()) {
                     manager.scheduler.lowQueue(track);
                 }
-                ctx.getHook().sendMessage(String.format("Queued `%d` tracks from `%s`", playlist.getTracks().size(), playlist.getName())).setEphemeral(true).queue();
+                MessageEmbed embed = new EmbedBuilder()
+                        .setColor(Colours.SUCCESS.colour)
+                        .setTitle(String.format("Queued `%d` tracks from `%s`", playlist.getTracks().size(), playlist.getName()))
+                        .build();
+                ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
             }
 
             @Override
             public void noMatches() {
-                ctx.getHook().sendMessage("Song not found").setEphemeral(true).queue();
+                MessageEmbed embed = new EmbedBuilder()
+                        .setColor(Colours.ERROR.colour)
+                        .setTitle("Song not found")
+                        .build();
+                ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
             }
 
             @Override
             public void loadFailed(FriendlyException exception) {
-                ctx.getHook().sendMessage(exception.getMessage()).setEphemeral(true).queue();
+                MessageEmbed embed = new EmbedBuilder()
+                        .setColor(Colours.ERROR.colour)
+                        .setTitle("Could not load song")
+                        .setDescription(exception.getMessage())
+                        .build();
+                ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
             }
         });
     }

@@ -3,6 +3,8 @@ package com.Sudan.SudanBot;
 import com.Sudan.SudanBot.commands.Invite;
 import com.Sudan.SudanBot.commands.Ping;
 import com.Sudan.SudanBot.commands.music.*;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.Nullable;
@@ -42,7 +44,11 @@ public class CommandHandler extends ListenerAdapter {
         event.deferReply(true).queue();
         ICommand command = getCommand(event.getName());
         if (command == null) {
-            event.reply("An unknown error occurred").setEphemeral(true).queue();
+            MessageEmbed embed = new EmbedBuilder()
+                    .setColor(Colours.ERROR.colour)
+                    .setTitle("An unknown error occurred")
+                    .build();
+            event.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
             throw new IllegalArgumentException("Command not found " + event.getName());
         }
         command.handle(event);

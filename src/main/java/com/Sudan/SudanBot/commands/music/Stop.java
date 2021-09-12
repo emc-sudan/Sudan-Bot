@@ -1,9 +1,12 @@
 package com.Sudan.SudanBot.commands.music;
 
+import com.Sudan.SudanBot.Colours;
 import com.Sudan.SudanBot.GuildMusicManager;
 import com.Sudan.SudanBot.MusicCommand;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
@@ -23,6 +26,10 @@ public class Stop extends MusicCommand {
         musicManager.scheduler.player.stopTrack();
         musicManager.scheduler.queue.clear();
         musicManager.scheduler.lowQueue.clear();
-        ctx.getHook().sendMessage("Stopped").setEphemeral(true).queue();
+        MessageEmbed embed = new EmbedBuilder()
+                .setColor(Colours.SUCCESS.colour)
+                .setTitle("Stopped")
+                .build();
+        ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
     }
 }

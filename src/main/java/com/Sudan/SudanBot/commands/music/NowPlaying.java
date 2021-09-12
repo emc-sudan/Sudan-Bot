@@ -1,11 +1,14 @@
 package com.Sudan.SudanBot.commands.music;
 
+import com.Sudan.SudanBot.Colours;
 import com.Sudan.SudanBot.GuildMusicManager;
 import com.Sudan.SudanBot.MusicCommand;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
@@ -52,6 +55,14 @@ public class NowPlaying extends MusicCommand {
         if (showHours) position = String.format("%02d:%02d:%02d", hours, minutes, seconds);
         else if (showMinutes) position = String.format("%02d:%02d", minutes, seconds);
         else position = String.format("%02d", seconds);
-        ctx.getHook().sendMessage(String.format("Now playing: %s\n%s`[%s/%s]`", info.uri, info.isStream ? "\uD83D\uDD34 " : "", position, duration)).setEphemeral(true).queue();
+        float percent = (float) track.getPosition() / info.length;
+        MessageEmbed embed = new EmbedBuilder()
+                .setColor(Colours.INFO.colour)
+                .setTitle("Now playing")
+                .setDescription(String.format("%s[`%s`](%s)", info.isStream ? "\uD83D\uDD34 " : "", info.title, info.uri))
+                .addField("Time", String.format("`[%s/%s]`", position, duration), true)
+                .addField("Progress", new StringBuilder(String.format("――――――――――――――――――― `(%.2f%%)`", percent * 100)).insert((int) (percent * 20), "**__▬__**").toString(), false)
+                .build();
+        ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
     }
 }
