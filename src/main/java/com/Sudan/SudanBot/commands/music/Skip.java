@@ -32,7 +32,7 @@ public class Skip extends MusicCommand {
         musicManager.scheduler.nextTrack();
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(Colours.SUCCESS.colour)
-                .setTitle(String.format("Skipped %s", track.getInfo().title))
+                .setTitle(String.format("Skipped `%s`", track.getInfo().title))
                 .build();
         ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
     }

@@ -64,7 +64,7 @@ public class Music {
         getInstance().join(guild, voiceState.getChannel());
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(Colours.SUCCESS.colour)
-                .setTitle(String.format("Joined %s", voiceState.getChannel().getName()))
+                .setTitle(String.format("Joined `%s`", voiceState.getChannel().getName()))
                 .build();
         ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
     }
