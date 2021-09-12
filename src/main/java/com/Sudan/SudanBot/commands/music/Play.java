@@ -13,7 +13,7 @@ public class Play extends MusicCommand {
     @Override
     public CommandData command() {
         return new CommandData("play", "Adds a song to the queue")
-                .addOption(OptionType.STRING, "song", "The URL for the song to play", true);
+                .addOption(OptionType.STRING, "song", "The URL or name of the song to play", true);
     }
 
     @Override
