@@ -22,6 +22,7 @@ public class CommandHandler extends ListenerAdapter {
         addCommand(new Stop());
         addCommand(new Skip());
         addCommand(new NowPlaying());
+        addCommand(new Queue());
     }
     private void addCommand(ICommand cmd) {
         boolean nameFound = this.commands.stream().anyMatch((it) -> it.command().getName().equalsIgnoreCase(cmd.command().getName()));
