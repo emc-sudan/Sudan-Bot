@@ -29,7 +29,11 @@ public class NowPlaying extends MusicCommand {
     protected void afterCheck(SlashCommandEvent ctx, Guild guild, GuildVoiceState memberVoiceState, GuildVoiceState selfVoiceState, GuildMusicManager musicManager) {
         AudioTrack track = musicManager.audioPlayer.getPlayingTrack();
         if (track == null) {
-            ctx.getHook().sendMessage("Nothing is currently playing").setEphemeral(true).queue();
+            MessageEmbed embed = new EmbedBuilder()
+                    .setColor(Colours.ERROR.colour)
+                    .setTitle("There is currently nothing playing")
+                    .build();
+            ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
             return;
         }
         AudioTrackInfo info = track.getInfo();
