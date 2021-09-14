@@ -132,13 +132,19 @@ public class Music {
             }
         });
     }
+
     public GuildMusicManager getMusicManager(Guild guild) {
-        return this.musicManagers.computeIfAbsent(guild.getIdLong(), (guildId) -> {
+        return musicManagers.computeIfAbsent(guild.getIdLong(), (guildId) -> {
             final GuildMusicManager guildMusicManager = new GuildMusicManager(playerManager);
             guild.getAudioManager().setSendingHandler(guildMusicManager.getSendHandler());
             return guildMusicManager;
         });
     }
+
+    public void removeMusicManager(Guild guild) {
+        musicManagers.remove(guild.getIdLong());
+    }
+
     public static Music getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new Music();
