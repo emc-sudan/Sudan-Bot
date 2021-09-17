@@ -18,7 +18,7 @@ public class Stop extends MusicCommand {
 
     @Override
     protected boolean allowDeaf() {
-        return true;
+        return false;
     }
 
     @Override
