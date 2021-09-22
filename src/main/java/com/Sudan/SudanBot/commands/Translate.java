@@ -31,9 +31,9 @@ public class Translate implements ICommand {
     public CommandData command() {
         return new CommandData("translate", "Translates stuff")
                 .addOptions(
-                        new OptionData(OptionType.STRING, "text", "The stuff to translate"),
-                        new OptionData(OptionType.STRING, "source", "The source language").setRequired(false),
-                        new OptionData(OptionType.STRING, "destination", "The language to translate to. Default: en")
+                        new OptionData(OptionType.STRING, "text", "The stuff to translate", true),
+                        new OptionData(OptionType.STRING, "source", "The source language", false),
+                        new OptionData(OptionType.STRING, "destination", "The language to translate to, default: en", false)
                 );
     }
 
