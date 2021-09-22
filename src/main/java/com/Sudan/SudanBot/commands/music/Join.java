@@ -12,9 +12,15 @@ public class Join implements ICommand {
     }
 
     @Override
+    public boolean ephemeral() {
+        return true;
+    }
+
+    @Override
     public void handle(SlashCommandEvent ctx) {
         try {
             Music.join(ctx);
-        } catch (IllegalStateException ignored) {}
+        } catch (IllegalStateException ignored) {
+        }
     }
 }

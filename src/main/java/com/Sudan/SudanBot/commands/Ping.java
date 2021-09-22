@@ -15,6 +15,11 @@ public class Ping implements ICommand {
     }
 
     @Override
+    public boolean ephemeral() {
+        return true;
+    }
+
+    @Override
     public void handle(SlashCommandEvent ctx) {
         JDA jda = ctx.getJDA();
         MessageEmbed embed = new EmbedBuilder()

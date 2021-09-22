@@ -17,6 +17,11 @@ public class Invite implements ICommand {
     }
 
     @Override
+    public boolean ephemeral() {
+        return true;
+    }
+
+    @Override
     public void handle(SlashCommandEvent ctx) {
         MessageEmbed embed = new EmbedBuilder()
                 .setColor(Colours.INFO.colour)

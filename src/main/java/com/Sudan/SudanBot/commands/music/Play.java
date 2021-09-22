@@ -17,6 +17,11 @@ public class Play extends MusicCommand {
     }
 
     @Override
+    public boolean ephemeral() {
+        return true;
+    }
+
+    @Override
     protected boolean allowDeaf() {
         return false;
     }

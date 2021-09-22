@@ -2,6 +2,7 @@ package com.Sudan.SudanBot;
 
 import com.Sudan.SudanBot.commands.Invite;
 import com.Sudan.SudanBot.commands.Ping;
+import com.Sudan.SudanBot.commands.Translate;
 import com.Sudan.SudanBot.commands.music.*;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -16,6 +17,7 @@ public class CommandHandler extends ListenerAdapter {
     CommandHandler() {
         addCommand(new Ping());
         addCommand(new Invite());
+        addCommand(new Translate());
         // Music
         addCommand(new Join());
         addCommand(new Play());
@@ -43,7 +45,6 @@ public class CommandHandler extends ListenerAdapter {
     }
     @Override
     public void onSlashCommand(SlashCommandEvent event) {
-        event.deferReply(true).queue();
         ICommand command = getCommand(event.getName());
         if (command == null) {
             MessageEmbed embed = new EmbedBuilder()
@@ -53,6 +54,7 @@ public class CommandHandler extends ListenerAdapter {
             event.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
             throw new IllegalArgumentException("Command not found " + event.getName());
         }
+        if (command.ephemeral()) event.deferReply(true).queue();
         command.handle(event);
     }
 }

@@ -23,6 +23,11 @@ public class Queue extends MusicCommand {
     }
 
     @Override
+    public boolean ephemeral() {
+        return true;
+    }
+
+    @Override
     protected boolean allowDeaf() {
         return true;
     }
