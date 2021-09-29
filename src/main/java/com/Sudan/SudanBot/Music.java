@@ -41,7 +41,7 @@ public class Music {
                     .setColor(Colours.ERROR.colour)
                     .setTitle("Could not retrieve server")
                     .build();
-            ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
+            ctx.getHook().sendMessageEmbeds(embed).queue();
             throw new IllegalStateException("Could not retrieve server");
         }
         if (guild.getMember(ctx.getJDA().getSelfUser()).getVoiceState().inVoiceChannel()) {
@@ -49,7 +49,7 @@ public class Music {
                     .setColor(Colours.ERROR.colour)
                     .setTitle("Do you expect me to be in two places at once?")
                     .build();
-            ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
+            ctx.getHook().sendMessageEmbeds(embed).queue();
             throw new IllegalStateException("Do you expect me to be in two places at once?");
         }
         GuildVoiceState voiceState = ctx.getMember().getVoiceState();
@@ -58,7 +58,7 @@ public class Music {
                     .setColor(Colours.ERROR.colour)
                     .setTitle("I can't join your voice channel if you're not in a voice channel")
                     .build();
-            ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
+            ctx.getHook().sendMessageEmbeds(embed).queue();
             throw new IllegalStateException("I can't join your voice channel if you're not in a voice channel");
         }
         getInstance().join(guild, voiceState.getChannel());
@@ -66,7 +66,7 @@ public class Music {
                 .setColor(Colours.SUCCESS.colour)
                 .setTitle(String.format("Joined `%s`", voiceState.getChannel().getName()))
                 .build();
-        ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
+        ctx.getHook().sendMessageEmbeds(embed).queue();
     }
     public void queue(SlashCommandEvent ctx, String url) {
         Guild guild = ctx.getGuild();
@@ -75,7 +75,7 @@ public class Music {
                     .setColor(Colours.ERROR.colour)
                     .setTitle("Could not retrieve server")
                     .build();
-            ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
+            ctx.getHook().sendMessageEmbeds(embed).queue();
             return;
         }
         final GuildMusicManager manager = getMusicManager(ctx.getGuild());
@@ -87,7 +87,7 @@ public class Music {
                         .setColor(Colours.SUCCESS.colour)
                         .setTitle(String.format("Queued `%s`", track.getInfo().title))
                         .build();
-                ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
+                ctx.getHook().sendMessageEmbeds(embed).queue();
             }
 
             @Override
@@ -99,7 +99,7 @@ public class Music {
                             .setColor(Colours.SUCCESS.colour)
                             .setTitle(String.format("Queued `%s`", track.getInfo().title))
                             .build();
-                    ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
+                    ctx.getHook().sendMessageEmbeds(embed).queue();
                     return;
                 }
                 for (AudioTrack track : playlist.getTracks()) {
@@ -109,7 +109,7 @@ public class Music {
                         .setColor(Colours.SUCCESS.colour)
                         .setTitle(String.format("Queued `%d` tracks from `%s`", playlist.getTracks().size(), playlist.getName()))
                         .build();
-                ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
+                ctx.getHook().sendMessageEmbeds(embed).queue();
             }
 
             @Override
@@ -118,7 +118,7 @@ public class Music {
                         .setColor(Colours.ERROR.colour)
                         .setTitle("Song not found")
                         .build();
-                ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
+                ctx.getHook().sendMessageEmbeds(embed).queue();
             }
 
             @Override
@@ -128,7 +128,7 @@ public class Music {
                         .setTitle("Could not load song")
                         .setDescription(exception.getMessage())
                         .build();
-                ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
+                ctx.getHook().sendMessageEmbeds(embed).queue();
             }
         });
     }

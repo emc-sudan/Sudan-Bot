@@ -38,7 +38,7 @@ public class NowPlaying extends MusicCommand {
                     .setColor(Colours.ERROR.colour)
                     .setTitle("There is currently nothing playing")
                     .build();
-            ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
+            ctx.getHook().sendMessageEmbeds(embed).queue();
             return;
         }
         AudioTrackInfo info = track.getInfo();
@@ -72,6 +72,6 @@ public class NowPlaying extends MusicCommand {
                 .addField("Time", String.format("`[%s/%s]`", position, duration), true)
                 .addField("Progress", new StringBuilder(String.format("――――――――――――――――――― `(%.2f%%)`", percent * 100)).insert((int) (percent * 20), "**__▬__**").toString(), false)
                 .build();
-        ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
+        ctx.getHook().sendMessageEmbeds(embed).queue();
     }
 }

@@ -31,7 +31,7 @@ public class Skip extends MusicCommand {
     protected void afterCheck(SlashCommandEvent ctx, Guild guild, GuildVoiceState memberVoiceState, GuildVoiceState selfVoiceState, GuildMusicManager musicManager) {
         AudioTrack track = musicManager.audioPlayer.getPlayingTrack();
         if (track == null) {
-            ctx.getHook().sendMessage("I can't skip nothing").setEphemeral(true).queue();
+            ctx.getHook().sendMessage("I can't skip nothing").queue();
             return;
         }
         musicManager.scheduler.nextTrack();
@@ -39,6 +39,6 @@ public class Skip extends MusicCommand {
                 .setColor(Colours.SUCCESS.colour)
                 .setTitle(String.format("Skipped `%s`", track.getInfo().title))
                 .build();
-        ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
+        ctx.getHook().sendMessageEmbeds(embed).queue();
     }
 }

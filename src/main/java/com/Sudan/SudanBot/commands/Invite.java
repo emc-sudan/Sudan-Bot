@@ -27,6 +27,6 @@ public class Invite implements ICommand {
                 .setColor(Colours.INFO.colour)
                 .setTitle("Click here to invite me to your own server", String.format(INVITE, Config.get("application id")))
                 .build();
-        ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
+        ctx.getHook().sendMessageEmbeds(embed).queue();
     }
 }

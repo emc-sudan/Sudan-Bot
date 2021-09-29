@@ -28,6 +28,6 @@ public class Ping implements ICommand {
                 .addField("Gateway", String.format("`%dms`", jda.getGatewayPing()), true)
                 .addField("Rest", String.format("`%dms`", jda.getRestPing().complete()), true)
                 .build();
-        ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
+        ctx.getHook().sendMessageEmbeds(embed).queue();
     }
 }

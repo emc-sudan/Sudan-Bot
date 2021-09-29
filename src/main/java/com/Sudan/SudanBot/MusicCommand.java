@@ -22,7 +22,7 @@ public abstract class MusicCommand implements ICommand {
                     .setColor(Colours.ERROR.colour)
                     .setTitle("Could not retrieve server")
                     .build();
-            ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
+            ctx.getHook().sendMessageEmbeds(embed).queue();
             return;
         }
         GuildVoiceState selfVoiceState = guild.getMember(ctx.getJDA().getSelfUser()).getVoiceState();
@@ -39,7 +39,7 @@ public abstract class MusicCommand implements ICommand {
                     .setColor(Colours.ERROR.colour)
                     .setTitle("Do you really think i'm going to play music for someone who's not listening?")
                     .build();
-            ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
+            ctx.getHook().sendMessageEmbeds(embed).queue();
             return;
         }
         afterCheck(ctx, guild, memberVoiceState, selfVoiceState, Music.getInstance().getMusicManager(guild));

@@ -35,6 +35,6 @@ public class Stop extends MusicCommand {
                 .setColor(Colours.SUCCESS.colour)
                 .setTitle("Stopped")
                 .build();
-        ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
+        ctx.getHook().sendMessageEmbeds(embed).queue();
     }
 }

@@ -42,7 +42,7 @@ public class Queue extends MusicCommand {
                     .setTitle("There is currently nothing in the queue")
                     .setDescription("Use `/play <song>` to add a song to the queue")
                     .build();
-            ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
+            ctx.getHook().sendMessageEmbeds(embed).queue();
             return;
         }
         EmbedBuilder eb = new EmbedBuilder()
@@ -76,6 +76,6 @@ public class Queue extends MusicCommand {
             }
         }
         eb.setDescription(list.toString());
-        ctx.getHook().sendMessageEmbeds(eb.build()).setEphemeral(true).queue();
+        ctx.getHook().sendMessageEmbeds(eb.build()).queue();
     }
 }

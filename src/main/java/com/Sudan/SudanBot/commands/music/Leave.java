@@ -39,6 +39,6 @@ public class Leave extends MusicCommand {
                 .setColor(Colours.SUCCESS.colour)
                 .setTitle(String.format("Left %s", memberVoiceState.getChannel().getName()))
                 .build();
-        ctx.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
+        ctx.getHook().sendMessageEmbeds(embed).queue();
     }
 }
