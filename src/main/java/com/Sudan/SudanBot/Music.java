@@ -8,10 +8,7 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.GuildVoiceState;
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
 
@@ -60,6 +57,14 @@ public class Music {
                     .build();
             ctx.getHook().sendMessageEmbeds(embed).queue();
             throw new IllegalStateException("I can't join your voice channel if you're not in a voice channel");
+        }
+        if (voiceState.getChannel().getType() == ChannelType.STAGE && voiceState.isSuppressed()) {
+            MessageEmbed embed = new EmbedBuilder()
+                    .setColor(Colours.ERROR.colour)
+                    .setTitle("You need to be a speaker to do that")
+                    .build();
+            ctx.getHook().sendMessageEmbeds(embed).queue();
+            throw new IllegalStateException("You need to be a speaker to do that");
         }
         getInstance().join(guild, voiceState.getChannel());
         MessageEmbed embed = new EmbedBuilder()

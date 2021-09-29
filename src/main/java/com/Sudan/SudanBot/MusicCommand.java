@@ -1,6 +1,7 @@
 package com.Sudan.SudanBot;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -33,6 +34,14 @@ public abstract class MusicCommand implements ICommand {
             } catch (IllegalStateException exception) {
                 return;
             }
+        }
+        if (selfVoiceState.getChannel().getType() == ChannelType.STAGE && memberVoiceState.isSuppressed()) {
+            MessageEmbed embed = new EmbedBuilder()
+                    .setColor(Colours.ERROR.colour)
+                    .setTitle("You need to be a speaker to do that")
+                    .build();
+            ctx.getHook().sendMessageEmbeds(embed).queue();
+            return;
         }
         if (!allowDeaf() && memberVoiceState.isDeafened()) {
             MessageEmbed embed = new EmbedBuilder()
