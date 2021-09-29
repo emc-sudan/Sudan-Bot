@@ -12,17 +12,21 @@ public class Guild implements ITable {
         PreparedStatement preparedStatement = Database.getConnection().prepareStatement("SELECT * FROM guilds WHERE id = ?");
         preparedStatement.setString(1, key);
         ResultSet result = preparedStatement.executeQuery();
-        if (!result.first()) {
+        if (!result.next()) {
+            preparedStatement.close();
             preparedStatement = Database.getConnection().prepareStatement("INSERT INTO guilds (id) VALUES (?)");
             preparedStatement.setString(1, key);
             preparedStatement.execute();
+            preparedStatement.close();
             return get(key);
         }
-        return new GuildData(
+        GuildData guildData = new GuildData(
                 result.getString("id"),
                 result.getString("musicStage"),
                 result.getString("stagePlaylist")
         );
+        preparedStatement.close();
+        return guildData;
     }
 
     @Override
@@ -44,6 +48,7 @@ public class Guild implements ITable {
             preparedStatement.setString(1, id);
             preparedStatement.setString(2, this.id);
             preparedStatement.execute();
+            preparedStatement.close();
         }
 
         public void setStagePlaylist(String playlist) throws SQLException {
@@ -51,6 +56,7 @@ public class Guild implements ITable {
             preparedStatement.setString(1, playlist);
             preparedStatement.setString(2, this.id);
             preparedStatement.execute();
+            preparedStatement.close();
         }
     }
 }
