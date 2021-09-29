@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
@@ -60,6 +62,23 @@ public class Main {
                     for (Command command : guild.retrieveCommands().complete()) {
                         LOGGER.info(String.format("Deleting %s in %s", command.getName(), guild.getName()));
                         command.delete().queue();
+                    }
+                    LOGGER.info("Done!");
+                    api.shutdown();
+                }
+                case "initdb" -> {
+                    LOGGER.info("Initialising database");
+                    ITable[] tables = new ITable[]{
+                            new com.Sudan.SudanBot.tables.Guild(),
+                    };
+                    try {
+                        Connection connection = Database.getConnection();
+                        for (ITable table : tables) {
+                            LOGGER.info("Created " + table.getClass().getName());
+                            connection.createStatement().execute(table.create());
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
                     }
                     LOGGER.info("Done!");
                     api.shutdown();
