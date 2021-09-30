@@ -86,7 +86,10 @@ public class Main {
                 default -> throw new IllegalArgumentException("Invalid command");
             }
         } else {
-            api.addEventListener(commands);
+            api.addEventListener(
+                    commands,
+                    new StageMusic(api)
+            );
         }
     }
 }

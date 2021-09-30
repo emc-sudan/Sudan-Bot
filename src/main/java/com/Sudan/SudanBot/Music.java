@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Music {
-    private final AudioPlayerManager playerManager;
+    public final AudioPlayerManager playerManager;
     private static Music INSTANCE;
     private final Map<Long, GuildMusicManager> musicManagers;
     public Music() {
@@ -144,6 +144,13 @@ public class Music {
             guild.getAudioManager().setSendingHandler(guildMusicManager.getSendHandler());
             return guildMusicManager;
         });
+    }
+
+    public void createStageMusicManager(Guild guild, AudioPlaylist playlist) {
+        final GuildMusicManager guildMusicManager = new GuildMusicManager(playerManager, playlist);
+        guild.getAudioManager().setSendingHandler(guildMusicManager.getSendHandler());
+        musicManagers.put(guild.getIdLong(), guildMusicManager);
+        guildMusicManager.scheduler.nextTrack();
     }
 
     public void removeMusicManager(Guild guild) {
