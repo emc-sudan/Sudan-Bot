@@ -39,7 +39,7 @@ public class Music {
                     .setTitle("Could not retrieve server")
                     .build();
             ctx.getHook().sendMessageEmbeds(embed).queue();
-            throw new IllegalStateException("Could not retrieve server");
+            throw new IllegalStateException();
         }
         if (guild.getMember(ctx.getJDA().getSelfUser()).getVoiceState().inVoiceChannel()) {
             MessageEmbed embed = new EmbedBuilder()
@@ -47,7 +47,7 @@ public class Music {
                     .setTitle("Do you expect me to be in two places at once?")
                     .build();
             ctx.getHook().sendMessageEmbeds(embed).queue();
-            throw new IllegalStateException("Do you expect me to be in two places at once?");
+            throw new IllegalStateException();
         }
         GuildVoiceState voiceState = ctx.getMember().getVoiceState();
         if (!voiceState.inVoiceChannel()) {
@@ -56,7 +56,7 @@ public class Music {
                     .setTitle("I can't join your voice channel if you're not in a voice channel")
                     .build();
             ctx.getHook().sendMessageEmbeds(embed).queue();
-            throw new IllegalStateException("I can't join your voice channel if you're not in a voice channel");
+            throw new IllegalStateException();
         }
         if (voiceState.getChannel().getType() == ChannelType.STAGE && voiceState.isSuppressed()) {
             MessageEmbed embed = new EmbedBuilder()
@@ -64,7 +64,7 @@ public class Music {
                     .setTitle("You need to be a speaker to do that")
                     .build();
             ctx.getHook().sendMessageEmbeds(embed).queue();
-            throw new IllegalStateException("You need to be a speaker to do that");
+            throw new IllegalStateException();
         }
         getInstance().join(guild, voiceState.getChannel());
         MessageEmbed embed = new EmbedBuilder()
