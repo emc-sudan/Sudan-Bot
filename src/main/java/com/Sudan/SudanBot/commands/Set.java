@@ -24,6 +24,7 @@ public class Set implements ICommand {
                         new SubcommandData("unset", "Unsets an unsettable setting")
                                 .addOptions(new OptionData(OptionType.STRING, "setting", "The setting to unset", true)
                                         .addChoice("Music Stage", "Music Stage")
+                                        .addChoice("Stage Playlist", "Stage Playlist")
                                 ),
                         new SubcommandData("music-stage", "Sets the stage channel for music")
                                 .addOptions(new OptionData(OptionType.CHANNEL, "channel", "The channel to automatically join", true)
@@ -47,9 +48,9 @@ public class Set implements ICommand {
             switch (ctx.getSubcommandName()) {
                 case "unset" -> {
                     String setting = ctx.getOption("setting").getAsString();
-                    //noinspection SwitchStatementWithTooFewBranches
                     switch (setting) {
                         case "Music Stage" -> guild.setMusicStage(null);
+                        case "Stage Playlist" -> guild.setStagePlaylist(null);
                         default -> throw new IllegalArgumentException("Invalid setting to unset " + setting);
                     }
                     message = setting + "unset";
