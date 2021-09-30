@@ -33,6 +33,11 @@ public class Skip extends MusicCommand {
     }
 
     @Override
+    protected boolean allowAutoStage() {
+        return true;
+    }
+
+    @Override
     protected void afterCheck(SlashCommandEvent ctx, Guild guild, GuildVoiceState memberVoiceState, GuildVoiceState selfVoiceState, GuildMusicManager musicManager) {
         AudioTrack track = musicManager.audioPlayer.getPlayingTrack();
         if (track == null) {

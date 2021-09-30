@@ -31,6 +31,11 @@ public class Play extends MusicCommand {
         return false;
     }
 
+    @Override
+    protected boolean allowAutoStage() {
+        return true;
+    }
+
     @SuppressWarnings("ConstantConditions")
     @Override
     public void afterCheck(SlashCommandEvent ctx, Guild guild, GuildVoiceState memberVoiceState, GuildVoiceState selfVoiceState, GuildMusicManager musicManager) {

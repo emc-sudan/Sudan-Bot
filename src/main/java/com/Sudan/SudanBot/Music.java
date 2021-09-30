@@ -41,7 +41,18 @@ public class Music {
             ctx.getHook().sendMessageEmbeds(embed).queue();
             throw new IllegalStateException();
         }
-        if (guild.getMember(ctx.getJDA().getSelfUser()).getVoiceState().inVoiceChannel()) {
+        GuildVoiceState voiceState = ctx.getMember().getVoiceState();
+        if (getInstance().getMusicManager(guild).scheduler instanceof StageTrackScheduler) {
+            if (guild.getSelfMember().getVoiceState().getChannel().getMembers().stream().anyMatch((member) -> !member.getUser().isBot())) {
+                MessageEmbed embed = new EmbedBuilder()
+                        .setColor(Colours.ERROR.colour)
+                        .setTitle("Other people are busy enjoying music, don't be selfish")
+                        .build();
+                ctx.getHook().sendMessageEmbeds(embed).queue();
+                throw new IllegalStateException();
+            }
+            getInstance().removeMusicManager(guild);
+        } else if (voiceState.inVoiceChannel()) {
             MessageEmbed embed = new EmbedBuilder()
                     .setColor(Colours.ERROR.colour)
                     .setTitle("Do you expect me to be in two places at once?")
@@ -49,7 +60,6 @@ public class Music {
             ctx.getHook().sendMessageEmbeds(embed).queue();
             throw new IllegalStateException();
         }
-        GuildVoiceState voiceState = ctx.getMember().getVoiceState();
         if (!voiceState.inVoiceChannel()) {
             MessageEmbed embed = new EmbedBuilder()
                     .setColor(Colours.ERROR.colour)

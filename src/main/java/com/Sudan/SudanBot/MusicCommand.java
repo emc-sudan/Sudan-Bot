@@ -14,6 +14,8 @@ public abstract class MusicCommand implements ICommand {
 
     protected abstract boolean allowAudience();
 
+    protected abstract boolean allowAutoStage();
+
     protected abstract void afterCheck(SlashCommandEvent ctx, Guild guild, GuildVoiceState memberVoiceState, GuildVoiceState selfVoiceState, GuildMusicManager musicManager);
 
     @SuppressWarnings("ConstantConditions")
@@ -36,6 +38,14 @@ public abstract class MusicCommand implements ICommand {
             } catch (IllegalStateException exception) {
                 return;
             }
+        }
+        if (!allowAutoStage() && Music.getInstance().getMusicManager(guild).scheduler instanceof StageTrackScheduler) {
+            MessageEmbed embed = new EmbedBuilder()
+                    .setColor(Colours.ERROR.colour)
+                    .setTitle("That can't be done in this channel")
+                    .build();
+            ctx.getHook().sendMessageEmbeds(embed).queue();
+            return;
         }
         if (!allowAudience() && selfVoiceState.getChannel().getType() == ChannelType.STAGE && memberVoiceState.isSuppressed()) {
             MessageEmbed embed = new EmbedBuilder()

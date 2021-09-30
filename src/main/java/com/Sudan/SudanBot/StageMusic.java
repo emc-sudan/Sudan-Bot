@@ -50,7 +50,7 @@ public class StageMusic extends ListenerAdapter {
         event.getVoiceState().inviteSpeaker().queue();
     }
 
-    private void setStagePlaylist(net.dv8tion.jda.api.entities.Guild guild, String playlist) throws IllegalArgumentException {
+    public static void setStagePlaylist(net.dv8tion.jda.api.entities.Guild guild, String playlist) throws IllegalArgumentException {
         Music.getInstance().playerManager.loadItem(playlist, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
