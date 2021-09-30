@@ -27,6 +27,11 @@ public class Leave extends MusicCommand {
         return false;
     }
 
+    @Override
+    protected boolean allowAudience() {
+        return false;
+    }
+
     @SuppressWarnings("ConstantConditions")
     @Override
     protected void afterCheck(SlashCommandEvent ctx, Guild guild, GuildVoiceState memberVoiceState, GuildVoiceState selfVoiceState, GuildMusicManager musicManager) {

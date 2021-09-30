@@ -12,6 +12,8 @@ import java.util.Objects;
 public abstract class MusicCommand implements ICommand {
     protected abstract boolean allowDeaf();
 
+    protected abstract boolean allowAudience();
+
     protected abstract void afterCheck(SlashCommandEvent ctx, Guild guild, GuildVoiceState memberVoiceState, GuildVoiceState selfVoiceState, GuildMusicManager musicManager);
 
     @SuppressWarnings("ConstantConditions")
@@ -35,7 +37,7 @@ public abstract class MusicCommand implements ICommand {
                 return;
             }
         }
-        if (selfVoiceState.getChannel().getType() == ChannelType.STAGE && memberVoiceState.isSuppressed()) {
+        if (!allowAudience() && selfVoiceState.getChannel().getType() == ChannelType.STAGE && memberVoiceState.isSuppressed()) {
             MessageEmbed embed = new EmbedBuilder()
                     .setColor(Colours.ERROR.colour)
                     .setTitle("You need to be a speaker to do that")

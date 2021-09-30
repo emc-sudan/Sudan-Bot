@@ -27,6 +27,11 @@ public class Stop extends MusicCommand {
     }
 
     @Override
+    protected boolean allowAudience() {
+        return false;
+    }
+
+    @Override
     protected void afterCheck(SlashCommandEvent ctx, Guild guild, GuildVoiceState memberVoiceState, GuildVoiceState selfVoiceState, GuildMusicManager musicManager) {
         musicManager.scheduler.player.stopTrack();
         musicManager.scheduler.queue.clear();

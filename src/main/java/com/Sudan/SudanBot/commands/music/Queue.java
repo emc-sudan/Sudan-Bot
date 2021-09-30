@@ -33,6 +33,11 @@ public class Queue extends MusicCommand {
     }
 
     @Override
+    protected boolean allowAudience() {
+        return true;
+    }
+
+    @Override
     protected void afterCheck(SlashCommandEvent ctx, Guild guild, GuildVoiceState memberVoiceState, GuildVoiceState selfVoiceState, GuildMusicManager musicManager) {
         BlockingQueue<AudioTrack> queue = musicManager.scheduler.queue;
         BlockingQueue<AudioTrack> lowQueue = musicManager.scheduler.lowQueue;
