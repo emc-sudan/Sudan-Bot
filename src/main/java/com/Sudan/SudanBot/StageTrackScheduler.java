@@ -18,6 +18,6 @@ public class StageTrackScheduler extends TrackScheduler {
     public void nextTrack() {
         AudioTrack track = queue.poll();
         track = track != null ? track : lowQueue.poll();
-        player.startTrack(track != null ? track : playlist[ThreadLocalRandom.current().nextInt(playlist.length)], false);
+        player.startTrack(track != null ? track : playlist[ThreadLocalRandom.current().nextInt(playlist.length)].makeClone(), false);
     }
 }
