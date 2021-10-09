@@ -1,9 +1,6 @@
 package com.Sudan.SudanBot;
 
-import com.Sudan.SudanBot.commands.Invite;
-import com.Sudan.SudanBot.commands.Ping;
-import com.Sudan.SudanBot.commands.Set;
-import com.Sudan.SudanBot.commands.Translate;
+import com.Sudan.SudanBot.commands.*;
 import com.Sudan.SudanBot.commands.music.*;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -20,6 +17,7 @@ public class CommandHandler extends ListenerAdapter {
         addCommand(new Invite());
         addCommand(new Translate());
         addCommand(new Set());
+        addCommand(new Timestamp());
         // Music
         addCommand(new Join());
         addCommand(new Play());
