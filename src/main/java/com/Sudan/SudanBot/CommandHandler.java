@@ -56,7 +56,10 @@ public class CommandHandler extends ListenerAdapter {
             event.getHook().sendMessageEmbeds(embed).setEphemeral(true).queue();
             throw new IllegalArgumentException("Command not found " + event.getName());
         }
-        if (command.ephemeral()) event.deferReply(true).queue();
+        if (command.ephemeral()) {
+            event.deferReply(true).queue();
+            event.getHook().setEphemeral(true);
+        }
         command.handle(event);
     }
 }
