@@ -39,15 +39,16 @@ public abstract class MusicCommand implements ICommand {
                 return;
             }
         }
-        if (!allowAutoStage() && Music.getInstance().getMusicManager(guild).scheduler instanceof StageTrackScheduler) {
-            MessageEmbed embed = new EmbedBuilder()
-                    .setColor(Colours.ERROR.colour)
-                    .setTitle("That can't be done in this channel")
-                    .build();
-            ctx.getHook().sendMessageEmbeds(embed).queue();
-            return;
-        }
-        if (!allowAudience() && selfVoiceState.getChannel().getType() == ChannelType.STAGE && memberVoiceState.isSuppressed()) {
+        if (Music.getInstance().getMusicManager(guild).scheduler instanceof StageTrackScheduler) {
+	    if (!allowAutoStage()) {
+                MessageEmbed embed = new EmbedBuilder()
+                        .setColor(Colours.ERROR.colour)
+                        .setTitle("That can't be done in this channel")
+                        .build();
+                ctx.getHook().sendMessageEmbeds(embed).queue();
+                return;
+            }
+	} else if (!allowAudience() && selfVoiceState.getChannel().getType() == ChannelType.STAGE && memberVoiceState.isSuppressed()) {
             MessageEmbed embed = new EmbedBuilder()
                     .setColor(Colours.ERROR.colour)
                     .setTitle("You need to be a speaker to do that")
