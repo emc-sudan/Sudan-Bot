@@ -6,3 +6,5 @@ updates:
       interval: "daily"
     labels:
       - "Dependencies"
+    reviewers:
+      - "TheSuperGamer20578"
